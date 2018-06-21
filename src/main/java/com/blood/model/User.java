@@ -9,10 +9,11 @@ import java.util.List;
 public class User implements Serializable {
 
     private Long id;
+    private String identification;
     private String name;
     private String lastName;
     private String nickName;
-    private String identification;
+    private String dateBirth;
 
     private String bloodType;
 
