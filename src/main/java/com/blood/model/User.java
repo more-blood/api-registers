@@ -9,15 +9,15 @@ import java.util.List;
 public class User implements Serializable {
 
     private Long id;
-    private String identification;
+    private String identity;
     private String name;
     private String lastName;
     private String nickName;
     private String dateBirth;
 
+    private Address address;
+
     private String bloodType;
 
     private List<Disease> diseases;
-
-    private Address address;
 }
