@@ -1,6 +1,6 @@
 package com.blood.registers.controller;
 
-import com.blood.registers.Utils.CustomException;
+import com.blood.registers.utils.CustomException;
 import com.blood.registers.model.User;
 import com.blood.registers.service.UserService;
 import org.apache.log4j.Logger;
@@ -22,7 +22,7 @@ public class UserController {
 
     static final Logger logger = Logger.getLogger(UserController.class);
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> create(@RequestBody User newUser) {
         try {
 
@@ -39,7 +39,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     public ResponseEntity<?> findOne(@PathVariable final Long id) {
         try {
 
@@ -62,7 +62,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping("/api/v1/users")
     public ResponseEntity<?> findAll() {
         try {
 
@@ -79,7 +79,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody User modifyUser) {
         try {
 
@@ -96,7 +96,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> remove(@PathVariable final Long id) {
         try {
 
