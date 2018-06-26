@@ -5,7 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @EnableEurekaClient
 @SpringBootApplication
-@ComponentScan(basePackages = "com.blood")
+@ComponentScan(basePackages = "com.blood.repository")
 public class ApiRegistersApplication {
 
 	public static void main(String[] args) {

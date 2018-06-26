@@ -1,23 +1,36 @@
-package com.blood.model;
+package com.blood.registers.model;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Data
+@Document(collection = "user")
 public class User implements Serializable {
 
+    @Id
     private Long id;
     private String identity;
     private String name;
     private String lastName;
     private String nickName;
     private String dateBirth;
+    private String picture;
+
+    private float kg;
+
+    private String email;
+
+    private String phoneNumber;
 
     private Address address;
 
     private String bloodType;
 
     private List<Disease> diseases;
+
+    private Boolean enabledDonate;
 }

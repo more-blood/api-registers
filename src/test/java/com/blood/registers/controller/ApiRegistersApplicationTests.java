@@ -1,4 +1,4 @@
-package com.blood.controller;
+package com.blood.registers.controller;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
