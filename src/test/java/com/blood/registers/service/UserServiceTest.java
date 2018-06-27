@@ -40,8 +40,7 @@ public class UserServiceTest {
     private Long id = Long.valueOf(1);
 
     @Before
-    public void setUp() {
-
+    public void setup() {
         user = User.builder()
                 .id(id)
                 .name("Raphael")
@@ -50,18 +49,18 @@ public class UserServiceTest {
 
         users.add(user);
 
-        Mockito.when(repository.save(user)).thenReturn(user);
         Mockito.when(repository.findAll()).thenReturn(users);
         Mockito.when(repository.findById((long) 1)).thenReturn(Optional.of(user));
         Mockito.when(repository.findById((long) 2)).thenReturn(Optional.empty());
-
     }
 
     @Test
     public void create() {
+        Mockito.when(repository.save(user)).thenReturn(user);
         User response = service.create(user);
-        assertEquals(user.getId(), id);
+        assertEquals(response.getId(), id);
     }
+
 
     @Test
     public void findAll() {
@@ -81,6 +80,26 @@ public class UserServiceTest {
     public void findOneNotFound() {
         Optional<User> response = service.finOne((long) 2);
         assertTrue(!response.isPresent());
+    }
+
+    @Test
+    public void update() {
+
+        User userUpdate = User.builder()
+                .id((long) 2)
+                .name("Raphael")
+                .lastName("Freitas")
+                .build();
+
+        Mockito.when(repository.save(userUpdate)).thenReturn(userUpdate);
+
+        User response = service.update((long) 2, userUpdate);
+        assertEquals(response, userUpdate);
+    }
+
+    @Test
+    public void remove() {
+        service.remove(id);
     }
 
 }

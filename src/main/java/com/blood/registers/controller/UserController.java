@@ -6,7 +6,6 @@ import com.blood.registers.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
     @Autowired
@@ -22,7 +20,7 @@ public class UserController {
 
     static final Logger logger = Logger.getLogger(UserController.class);
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/api/v1/user")
     public ResponseEntity<?> create(@RequestBody User newUser) {
         try {
 
@@ -39,7 +37,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/v1/user/{id}")
     public ResponseEntity<?> findOne(@PathVariable final Long id) {
         try {
 
@@ -62,7 +60,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/api/v1/users")
+    @GetMapping("/api/v1/user")
     public ResponseEntity<?> findAll() {
         try {
 
@@ -79,7 +77,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/api/v1/user/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody User modifyUser) {
         try {
 
@@ -96,7 +94,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/v1/user/{id}")
     public ResponseEntity<?> remove(@PathVariable final Long id) {
         try {
 
