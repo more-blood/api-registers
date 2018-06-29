@@ -22,9 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -67,6 +66,22 @@ public class UserControllerTest {
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
     }
 
+    @Test(expected = Exception.class)
+    public void createException() throws Exception {
+        User user = User.builder()
+                .name("Raphael")
+                .lastName("Freitas").build();
+
+        Mockito.when(userService.create(user)).thenThrow(Exception.class);
+
+        MockHttpServletResponse response = mvc.perform(
+                post("/api/v1/user").contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUser.write(user).getJson()))
+                .andReturn().getResponse();
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
+    }
+
     @Test
     public void findAll() throws Exception {
         User user = User.builder()
@@ -100,6 +115,38 @@ public class UserControllerTest {
         MockHttpServletResponse response = mvc
                 .perform(get("/api/v1/user/1")
                 .accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn().getResponse();
+
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+    }
+
+    @Test
+    public void update() throws Exception {
+
+        Long id = Long.valueOf(1);
+        User user = User.builder()
+                .id(id)
+                .name("Raphael")
+                .lastName("Freitas").build();
+
+        Mockito.when(userService.update(id, user)).thenReturn(user);
+
+        MockHttpServletResponse response = mvc
+                .perform(put("/api/v1/user/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonUser.write(user).getJson()))
+            .andReturn().getResponse();
+
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+
+    }
+
+    @Test
+    public void remove() throws Exception {
+        Long id = Long.valueOf(1);
+
+        MockHttpServletResponse response = mvc
+                .perform(delete("/api/v1/user/1"))
             .andReturn().getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
