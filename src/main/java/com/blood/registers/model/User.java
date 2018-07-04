@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,6 +22,7 @@ public class User implements Serializable {
     private String name;
     private String lastName;
     private String nickName;
+    private String password;
     private String dateBirth;
     private String picture;
 
@@ -33,10 +33,6 @@ public class User implements Serializable {
     private String phoneNumber;
 
     private Address address;
-
-    private String bloodType;
-
-    private List<Disease> diseases;
 
     private Boolean enabledDonate;
 }

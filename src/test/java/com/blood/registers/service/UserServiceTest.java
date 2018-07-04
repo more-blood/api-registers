@@ -55,7 +55,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void create() {
+    public void create() throws Exception {
         Mockito.when(repository.save(user)).thenReturn(user);
         User response = service.create(user);
         assertEquals(response.getId(), id);

@@ -3,8 +3,10 @@ package com.blood.registers.service;
 import com.blood.registers.model.User;
 import com.blood.registers.repository.UserRepository;
 
+import com.blood.registers.utils.CustomException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +20,13 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User create(User newUser) {
+    public User create(User newUser) throws Exception {
         try {
+
+            Optional<User> userFound = this.findByIdentity(newUser.getIdentity());
+            if (userFound.isPresent())
+                throw new CustomException("User Already exist", HttpStatus.BAD_REQUEST);
+
             logger.info("[ Service ] ");
             User user = userRepository.save(newUser);
 
@@ -34,6 +41,18 @@ public class UserService {
         try {
             logger.info("[ Service ] ");
             Optional<User> user = userRepository.findById(id);
+
+            return user;
+        } catch (Exception ex) {
+            logger.error("[ Service ] " + ex.getMessage());
+            throw ex;
+        }
+    }
+
+    public Optional<User> findByIdentity(String identity) {
+        try {
+            logger.info("[ Service ] ");
+            Optional<User> user = userRepository.findByIdentity(identity);
 
             return user;
         } catch (Exception ex) {

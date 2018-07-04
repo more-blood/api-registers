@@ -24,10 +24,10 @@ public class UserController {
     public ResponseEntity<?> create(@RequestBody User newUser) {
         try {
 
-            logger.info("[ Controller ]Creating user: " + newUser.getName());
+            logger.info("[ Controller ] Creating user: " + newUser.getName());
             User user = userService.create(newUser);
 
-            logger.info("[ Controller ]User created with success.");
+            logger.info("[ Controller ] User created with success.");
             return new ResponseEntity<>(user, HttpStatus.CREATED);
 
         } catch (Exception ex) {
@@ -51,6 +51,29 @@ public class UserController {
             }
 
             logger.info("[ Controller ] User found with success.");
+            return new ResponseEntity<>(user, HttpStatus.OK);
+
+        } catch (Exception ex) {
+            logger.error("[ Controller ] " + ex.getMessage());
+            return new ResponseEntity<>(new CustomException(ex.getMessage(), ex, HttpStatus.INTERNAL_SERVER_ERROR),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/api/v1/user/identity/{identity}")
+    public ResponseEntity<?> findByIdentity(String identity) {
+        try {
+
+            logger.info("[ Controller ] Finding user by identity: " + identity);
+            Optional<User> user = userService.findByIdentity(identity);
+
+            if (!user.isPresent()) {
+                logger.warn("[ Controller ] User by identity: " + identity + " not found");
+                return new ResponseEntity<>(new CustomException("User: " + identity + " not found", HttpStatus.NOT_FOUND),
+                        HttpStatus.NOT_FOUND);
+            }
+
+            logger.info("[ Controller ] User  found with success.");
             return new ResponseEntity<>(user, HttpStatus.OK);
 
         } catch (Exception ex) {

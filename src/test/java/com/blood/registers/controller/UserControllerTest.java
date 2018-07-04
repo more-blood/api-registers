@@ -2,6 +2,7 @@ package com.blood.registers.controller;
 
 import com.blood.registers.model.User;
 import com.blood.registers.service.UserService;
+import com.blood.registers.utils.CustomException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,13 +67,13 @@ public class UserControllerTest {
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void createException() throws Exception {
         User user = User.builder()
                 .name("Raphael")
                 .lastName("Freitas").build();
 
-        Mockito.when(userService.create(user)).thenThrow(Exception.class);
+        Mockito.when(userService.create(user)).thenThrow(CustomException.class);
 
         MockHttpServletResponse response = mvc.perform(
                 post("/api/v1/user").contentType(MediaType.APPLICATION_JSON)
